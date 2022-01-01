@@ -1,0 +1,14 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
+# Testing
+.pytest_cache/
+db.sqlite3
+
+# Environments
+.env
+.venv
+
+# PyCharm
+.idea
