@@ -9,13 +9,13 @@ from ..schemas.transactions import TransactionRead
 router = APIRouter(tags=["portfolio"])
 
 
-@router.get("/portfolio", response_model=list[PortfolioRead])
+@router.get("/portfolios", response_model=list[PortfolioRead])
 def list_portfolios(current_user: User = Depends(get_current_user)):
     return current_user.portfolios
 
 
 @router.post(
-    "/portfolio",
+    "/portfolios",
     response_model=PortfolioRead,
     status_code=status.HTTP_201_CREATED,
 )
@@ -33,7 +33,7 @@ def create_portfolio(
     return portfolio
 
 
-@router.get("/portfolio/{portfolio_id}", response_model=PortfolioRead)
+@router.get("/portfolios/{portfolio_id}", response_model=PortfolioRead)
 def get_single_portfolio(
     portfolio_id: int,
     current_user: User = Depends(get_current_user),
@@ -50,7 +50,7 @@ def get_single_portfolio(
     return portfolio
 
 
-@router.patch("/portfolio/{portfolio_id}", response_model=PortfolioRead)
+@router.patch("/portfolios/{portfolio_id}", response_model=PortfolioRead)
 def update_portfolio(
     portfolio_id: int,
     data: PortfolioCreate,
@@ -74,7 +74,7 @@ def update_portfolio(
     return portfolio
 
 
-@router.delete("/portfolio/{portfolio_id}")
+@router.delete("/portfolios/{portfolio_id}")
 def delete_portfolio(
     portfolio_id: int,
     current_user: User = Depends(get_current_user),
@@ -95,7 +95,7 @@ def delete_portfolio(
 
 
 @router.get(
-    "/portfolio/{portfolio_id}/transactions",
+    "/portfolios/{portfolio_id}/transactions",
     response_model=list[TransactionRead],
 )
 def list_portfolio_transactions(
