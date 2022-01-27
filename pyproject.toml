@@ -22,6 +22,7 @@ greenlet = "^1.1.2"
 psycopg2 = "^2.9.3"
 SQLAlchemy-Utils = "^0.38.2"
 retrying = "^1.3.3"
+python-dateutil = "^2.8.2"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.5"

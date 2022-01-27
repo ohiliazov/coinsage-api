@@ -451,7 +451,7 @@ testing = ["fields", "hunter", "process-tests", "six", "pytest-xdist", "virtuale
 name = "python-dateutil"
 version = "2.8.2"
 description = "Extensions to the standard Python datetime module"
-category = "dev"
+category = "main"
 optional = false
 python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,>=2.7"
 
@@ -728,7 +728,7 @@ standard = ["httptools (>=0.2.0,<0.4.0)", "watchgod (>=0.6)", "python-dotenv (>=
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.9.10,<3.10"
-content-hash = "82ef88db399e46f97bbbddd29ff79da40601ccd7b1ff0a6de7892d8cbb98e75f"
+content-hash = "149b4ac4528d207b5ad6411123309b0eb76197294849b9f32cdf8f6fa55fda37"
 
 [metadata.files]
 alembic = [
