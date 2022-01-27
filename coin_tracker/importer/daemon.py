@@ -1,4 +1,5 @@
-from datetime import timedelta, datetime
+import time
+from datetime import timedelta, datetime, date
 
 from sqlmodel import select, Session
 
@@ -11,8 +12,13 @@ from coin_tracker.security import decrypt_data
 
 def start_importer_daemon():
     with Session(get_db_engine()) as session:
+        previous_day = date.today() - timedelta(days=1)
         while True:
+            time.sleep(10)
             current_date = datetime.utcnow()
+            if current_date.date() == previous_day:
+                continue
+
             for exchange in session.exec(
                 select(Exchange).where(
                     Exchange.exchange_type == ExchangeType.BINANCE
@@ -27,3 +33,5 @@ def start_importer_daemon():
                     end_date=current_date,
                 )
                 importer.run()
+
+            previous_day = current_date.date()
