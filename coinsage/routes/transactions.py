@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, Request, Query, status
+from fastapi import APIRouter, Depends, HTTPException, status
 from sqlmodel import Session
 
 from ..dependencies import get_db_session, get_current_user

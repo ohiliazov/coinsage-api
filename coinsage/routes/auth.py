@@ -41,13 +41,11 @@ async def sign_up(
     data: UserCreate,
     session: Session = Depends(get_db_session),
 ):
-    result = session.exec(
-        select(User).where(User.username == data.username).limit(1)
-    )
+    result = session.exec(select(User).where(User.username == data.username).limit(1))
     if result.first():
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail=f"The username is already taken.",
+            detail="The username is already taken.",
         )
 
     user = User.from_orm(data)

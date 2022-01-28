@@ -7,9 +7,7 @@ fake = Faker()
 
 
 def test_list_transactions(user_client):
-    expected = len(
-        [t for p in user_client.user.portfolios for t in p.transactions]
-    )
+    expected = len([t for p in user_client.user.portfolios for t in p.transactions])
     response = user_client.get("/transactions")
     assert response.status_code == status.HTTP_200_OK
     assert len(response.json()) == expected
@@ -58,9 +56,7 @@ def test_create_transaction_not_found(user_client, db_portfolios):
 
 
 def test_create_transaction_forbidden(user_client, db_portfolios):
-    portfolio = random.choice(
-        [p for p in db_portfolios if p.user != user_client.user]
-    )
+    portfolio = random.choice([p for p in db_portfolios if p.user != user_client.user])
 
     data = {
         "portfolio_id": portfolio.id,

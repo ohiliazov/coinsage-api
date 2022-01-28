@@ -6,12 +6,12 @@ import pytest
 from fastapi.testclient import TestClient
 from sqlmodel import create_engine, Session
 
-from coin_tracker.security import get_password_hash, create_access_token
-from coin_tracker.config import settings
-from coin_tracker.constants import TransactionType
-from coin_tracker.main import app
-from coin_tracker.dependencies import get_db_session
-from coin_tracker.models import SQLModel, User, Portfolio, Transaction
+from coinsage.security import get_password_hash, create_access_token
+from coinsage.config import settings
+from coinsage.constants import TransactionType
+from coinsage.main import app
+from coinsage.dependencies import get_db_session
+from coinsage.models import SQLModel, User, Portfolio, Transaction
 
 test_engine = create_engine(
     settings.database_url, connect_args={"check_same_thread": False}
@@ -21,9 +21,7 @@ fake = faker.Faker()
 
 
 class UserClient(TestClient):
-    def __init__(
-        self, *args, user: User = None, access_token: str = None, **kwargs
-    ):
+    def __init__(self, *args, user: User = None, access_token: str = None, **kwargs):
         super().__init__(*args, **kwargs)
         self.user = user
         if access_token:
@@ -88,11 +86,7 @@ def db_users(db_session) -> list[User]:
 
 @pytest.fixture
 def db_portfolios(db_users) -> list[Portfolio]:
-    return [
-        db_portfolio
-        for db_user in db_users
-        for db_portfolio in db_user.portfolios
-    ]
+    return [db_portfolio for db_user in db_users for db_portfolio in db_user.portfolios]
 
 
 @pytest.fixture

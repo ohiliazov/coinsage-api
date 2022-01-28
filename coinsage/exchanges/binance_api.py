@@ -40,9 +40,7 @@ class BinanceAPI:
         return int(dt.timestamp() * 1000)
 
     def _get_signature(self, payload: dict):
-        data = {
-            key: value for key, value in payload.items() if value is not None
-        }
+        data = {key: value for key, value in payload.items() if value is not None}
         query_string = urlencode(data, True).replace("%40", "@")
         return hmac.new(
             key=self.secret_key.encode("utf-8"),

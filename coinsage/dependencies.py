@@ -1,17 +1,19 @@
 from typing import Optional
 
 from fastapi import Depends
-from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
-from sqlmodel import Session, select, create_engine
-from sqlalchemy.engine import Engine
-
+from fastapi.security import (
+    HTTPBearer,
+    HTTPAuthorizationCredentials,
+    OAuth2PasswordBearer,
+)
+from sqlmodel import Session, select
 
 from .security import decode_token
-from .config import settings
 from .models import User
 from .database import engine
 
 http_bearer = HTTPBearer(auto_error=False)
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/sign-in")
 
 
 def get_db_session() -> Session:
@@ -27,7 +29,7 @@ def get_access_token(
 
 
 def get_current_user(
-    access_token: str = Depends(get_access_token),
+    access_token: str = Depends(oauth2_scheme),
     session: Session = Depends(get_db_session),
 ) -> Optional[User]:
     username = decode_token(access_token)["sub"]

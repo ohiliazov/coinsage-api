@@ -33,9 +33,7 @@ def test_create_exchange_not_found(user_client, db_portfolios):
 
 
 def test_create_exchange_forbidden(user_client, db_portfolios):
-    portfolio = random.choice(
-        [p for p in db_portfolios if p.user != user_client.user]
-    )
+    portfolio = random.choice([p for p in db_portfolios if p.user != user_client.user])
     data = {
         "portfolio_id": portfolio.id,
         "exchange_type": "binance",

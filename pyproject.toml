@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "coin_tracker"
+name = "coinsage"
 version = "0.1.0"
 description = "CoinSage - Portfolio Tracker"
 authors = ["Oleksandr Hiliazov <oleksandr.hiliazov@gmail.com>"]
@@ -29,7 +29,12 @@ pytest = "^6.2.5"
 pytest-cov = "^3.0.0"
 Faker = "^11.3.0"
 requests = "^2.27.1"
+pre-commit = "^2.17.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+
+[tool.black]
+line-length = 88

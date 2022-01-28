@@ -2,7 +2,7 @@ from cryptography.fernet import Fernet
 from jose import jwt
 from passlib.context import CryptContext
 
-from coin_tracker.config import settings
+from coinsage.config import settings
 
 pwd_context = CryptContext(schemes=["bcrypt"])
 fernet = Fernet(settings.fernet_key)

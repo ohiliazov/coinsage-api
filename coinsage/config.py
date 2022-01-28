@@ -11,6 +11,4 @@ class Settings(BaseSettings):
 
 
 settings = Settings()
-settings.database_url = settings.database_url.replace(
-    "postgres://", "postgresql://"
-)
+settings.database_url = settings.database_url.replace("postgres://", "postgresql://")

@@ -3,8 +3,8 @@ from datetime import datetime, timedelta
 from dateutil.rrule import rrule, DAILY
 from sqlmodel import Session, select
 
-from coin_tracker.models import Transaction
-from coin_tracker.exchanges.binance_api import BinanceAPI
+from coinsage.models import Transaction
+from coinsage.exchanges.binance_api import BinanceAPI
 
 
 class TransactionMapper:

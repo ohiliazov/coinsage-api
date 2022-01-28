@@ -2,10 +2,10 @@ from collections import defaultdict
 from decimal import Decimal
 
 from fastapi import APIRouter, Depends, HTTPException, status
-from sqlmodel import Session, select
+from sqlmodel import Session
 
 from ..dependencies import get_db_session, get_current_user
-from ..models import User, Portfolio, Transaction
+from ..models import User, Portfolio
 from ..schemas.portfolios import (
     PortfolioCreate,
     PortfolioRead,

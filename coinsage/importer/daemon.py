@@ -2,11 +2,11 @@ from datetime import timedelta, datetime
 
 from sqlmodel import select, Session
 
-from coin_tracker.database import engine
-from coin_tracker.importer.binance import BinanceImporter
-from coin_tracker.models import Exchange
-from coin_tracker.constants import ExchangeType
-from coin_tracker.security import decrypt_data
+from coinsage.database import engine
+from coinsage.importer.binance import BinanceImporter
+from coinsage.models import Exchange
+from coinsage.constants import ExchangeType
+from coinsage.security import decrypt_data
 
 
 def start_importer_daemon():
@@ -27,5 +27,3 @@ def start_importer_daemon():
                     end_date=current_date,
                 )
                 importer.run()
-
-            previous_day = current_date.date()
