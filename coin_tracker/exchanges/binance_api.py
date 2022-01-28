@@ -129,25 +129,109 @@ class BinanceAPI:
 
         return response["list"]
 
-    def fiat_orders(self, transaction_type: int):
+    def _fiat_orders(
+        self,
+        page: int,
+        transaction_type: int,
+        begin_time: datetime = None,
+        end_time: datetime = None,
+        rows: int = 500,
+    ):
         """Fiat Deposit/Withdraw History"""
+        params = {
+            "transactionType": transaction_type,
+            "page": page,
+            "rows": rows,
+        }
+        if begin_time:
+            params["beginTime"] = self._get_timestamp(begin_time)
+        if end_time:
+            params["endTime"] = self._get_timestamp(end_time)
+
         response = self.send_request(
             "GET",
             "/sapi/v1/fiat/orders",
-            {"transactionType": transaction_type},
+            params,
         )
 
         return response["data"]
 
-    def fiat_payments(self, transaction_type: int):
+    def fiat_orders(
+        self,
+        transaction_type: int,
+        begin_time: datetime = None,
+        end_time: datetime = None,
+        rows: int = 500,
+    ):
+        """Fiat Deposit/Withdraw History"""
+        page = 0
+        orders = []
+
+        while True:
+            page += 1
+            data = self._fiat_orders(
+                page=page,
+                transaction_type=transaction_type,
+                begin_time=begin_time,
+                end_time=end_time,
+                rows=rows,
+            )
+            orders.extend(data)
+
+            if len(data) < rows:
+                return orders
+
+    def _fiat_payments(
+        self,
+        page: int,
+        transaction_type: int,
+        begin_time: datetime = None,
+        end_time: datetime = None,
+        rows: int = 500,
+    ):
         """Fiat Payments History"""
+        params = {
+            "transactionType": transaction_type,
+            "page": page,
+            "rows": rows,
+        }
+        if begin_time:
+            params["beginTime"] = self._get_timestamp(begin_time)
+        if end_time:
+            params["endTime"] = self._get_timestamp(end_time)
+
         response = self.send_request(
             "GET",
             "/sapi/v1/fiat/payments",
-            {"transactionType": transaction_type},
+            params,
         )
 
         return response["data"]
+
+    def fiat_payments(
+        self,
+        transaction_type: int,
+        begin_time: datetime = None,
+        end_time: datetime = None,
+        rows: int = 500,
+    ):
+        """Fiat Payments History"""
+        page = 0
+        payments = []
+
+        while True:
+            page += 1
+            data = self._fiat_payments(
+                page=page,
+                transaction_type=transaction_type,
+                begin_time=begin_time,
+                end_time=end_time,
+                rows=rows,
+            )
+            payments.extend(data)
+
+            if len(data) < rows:
+                return payments
 
     def my_trades(self, symbol: str):
         """Trades history"""

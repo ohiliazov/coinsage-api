@@ -191,6 +191,7 @@ class BinanceImporter:
         for item in withdraw_history:
             transaction = self.mapper.from_withdraw_history(item)
             self.add_transaction(transaction)
+        self.session.commit()
 
         print("WITHDRAW HISTORY: DONE")
 
@@ -201,6 +202,7 @@ class BinanceImporter:
         for item in asset_dividends:
             transaction = self.mapper.from_asset_dividend(item)
             self.add_transaction(transaction)
+        self.session.commit()
 
         print("ASSET DIVIDENDS: DONE")
 
@@ -211,14 +213,23 @@ class BinanceImporter:
         for item in asset_dribblets:
             transaction = self.mapper.from_asset_dribblet(item)
             self.add_transaction(transaction)
+        self.session.commit()
 
         print("ASSET DRIBBLETS: DONE")
 
     def import_fiat_orders(self):
         print("FIAT ORDERS: START")
 
-        fiat_orders_buy = self.api.fiat_orders(0)
-        fiat_orders_sell = self.api.fiat_orders(1)
+        fiat_orders_buy = self.api.fiat_orders(
+            0,
+            begin_time=self.start_date,
+            end_time=self.end_date,
+        )
+        fiat_orders_sell = self.api.fiat_orders(
+            1,
+            begin_time=self.start_date,
+            end_time=self.end_date,
+        )
 
         for item in fiat_orders_buy:
             transaction = self.mapper.from_fiat_orders(item, 0)
@@ -227,14 +238,23 @@ class BinanceImporter:
         for item in fiat_orders_sell:
             transaction = self.mapper.from_fiat_orders(item, 1)
             self.add_transaction(transaction)
+        self.session.commit()
 
         print("FIAT ORDERS: DONE")
 
     def import_fiat_payments(self):
         print("FIAT PAYMENTS: START")
 
-        fiat_payments_buy = self.api.fiat_payments(0)
-        fiat_payments_sell = self.api.fiat_payments(1)
+        fiat_payments_buy = self.api.fiat_payments(
+            0,
+            begin_time=self.start_date,
+            end_time=self.end_date,
+        )
+        fiat_payments_sell = self.api.fiat_payments(
+            1,
+            begin_time=self.start_date,
+            end_time=self.end_date,
+        )
 
         for item in fiat_payments_buy:
             transaction = self.mapper.from_fiat_payments(item, 0)
@@ -243,6 +263,8 @@ class BinanceImporter:
         for item in fiat_payments_sell:
             transaction = self.mapper.from_fiat_payments(item, 1)
             self.add_transaction(transaction)
+
+        self.session.commit()
 
         print("FIAT PAYMENTS: DONE")
 
@@ -257,6 +279,8 @@ class BinanceImporter:
         for item in trade_flow:
             transaction = self.mapper.from_trade_flow(item)
             self.add_transaction(transaction)
+
+        self.session.commit()
 
     def import_trade_flow(self):
         print("TRADE FLOW: START")
@@ -274,6 +298,8 @@ class BinanceImporter:
             transaction = self.mapper.from_my_trades(symbol, item)
             self.add_transaction(transaction)
 
+        self.session.commit()
+
     def import_my_trades(self):
         print("MY TRADES: START")
 
@@ -281,6 +307,7 @@ class BinanceImporter:
 
         for symbol in exchange_info["symbols"]:
             self._import_symbol_trades(symbol)
+        self.session.commit()
 
         print("MY TRADES: DONE")
 
@@ -295,7 +322,6 @@ class BinanceImporter:
             self.import_fiat_payments()
             self.import_trade_flow()
             self.import_my_trades()
-            self.session.commit()
         finally:
             self.session.close()
             self.api.session.close()

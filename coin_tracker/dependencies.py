@@ -9,16 +9,12 @@ from sqlalchemy.engine import Engine
 from .security import decode_token
 from .config import settings
 from .models import User
-
+from .database import engine
 
 http_bearer = HTTPBearer(auto_error=False)
 
 
-def get_db_engine() -> Engine:
-    return create_engine(settings.database_url)
-
-
-def get_db_session(engine: Engine = Depends(get_db_engine)) -> Session:
+def get_db_session() -> Session:
     with Session(engine) as session:
         yield session
 
